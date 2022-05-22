@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require("dotenv").config();
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -11,9 +12,26 @@ const io = require("socket.io")(server);
 
 server.listen(3003);
 
+//config body-parser
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
+
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json()); // parse application/json
+
+
+//config mongooseDB
+const mongoose = require("mongoose");
+mongoose.connect(
+  `mongodb+srv://${process.env.MONGOOSE_AUTHENTICATION_USER}:${process.env.MONGOOSE_AUTHENTICATION_PASSWORD}@cluster0.coerd.mongodb.net/${process.env.MONGOOSE_DATABASE_NAME}?retryWrites=true&w=majority`,
+  { useNewUrlParser: true },
+  (err) => {
+    if (err) console.log(err);
+    else console.log("Connected to mongoDB");
+  }
+);
 
 // respond with "hello world" when a GET request is made to the homepage
 require("./controllers/game")(app, io);
