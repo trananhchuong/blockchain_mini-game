@@ -2,7 +2,6 @@ const student = require("../models/student");
 
 module.exports = function (app) {
   app.post("/register", (req, res) => {
-    console.log("🚀 ~ file: game.js ~ line 5 ~ app.post ~ req", req.body);
     if (!req.body.name || !req.body.email || !req.body.phone) {
       res.json({
         success: false,
@@ -35,13 +34,6 @@ module.exports = function (app) {
   });
 
   app.get("/", (req, res) => {
-    const studentFind = new student({
-      name: "Teo",
-      email: "teoninolxag@gmail.com",
-      phone: "0397997439",
-      wallet: "adasdasdsada",
-      dateTime: Date.now(),
-    });
-    res.send(studentFind);
+    res.render("layout");
   });
 };

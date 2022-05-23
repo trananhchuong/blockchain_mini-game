@@ -3,6 +3,9 @@ const app = express();
 require("dotenv").config();
 
 app.use(express.static("public"));
+app.use("/scripts",express.static(`${__dirname}/node_modules/web3.js-browser/build/`));
+
+// setup ejs
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
@@ -14,12 +17,8 @@ server.listen(3003);
 
 //config body-parser
 const bodyParser = require("body-parser");
-
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
-
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json()); // parse application/json
 
 
 //config mongooseDB
